@@ -4,6 +4,7 @@ import { Entry, Podcasts } from "./types.d";
 
 function App() {
   const [podcasts, setPodcasts] = useState<Entry[]>([]);
+  const [filter, setFilter] = useState<string | null>(null);
 
   useEffect(() => {
     if (
@@ -36,10 +37,28 @@ function App() {
       .catch((error) => console.log(error));
   };
 
+  const filteredPodcasts =
+    typeof filter === "string"
+      ? podcasts.filter((podcast) => {
+          return (
+            podcast.title.label.toLowerCase().includes(filter.toLowerCase()) ||
+            podcast["im:artist"].label
+              .toLowerCase()
+              .includes(filter.toLowerCase())
+          );
+        })
+      : podcasts;
+
   return (
-    <div className="App">
+    <div className="app">
       <h1>Prueba tecnica - Podcaster</h1>
-      {JSON.stringify(podcasts)}
+      <input
+        type="text"
+        placeholder="Filter podcasts"
+        className="filter"
+        onChange={(e) => setFilter(e.target.value)}
+      />
+      {JSON.stringify(filteredPodcasts)}
     </div>
   );
 }
