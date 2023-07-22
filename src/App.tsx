@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+
 import "./App.css";
+
+import Detail from "./components/Detail";
+import Home from "./components/Home";
 import { Entry, Podcasts } from "./types.d";
 
 function App() {
@@ -50,7 +55,7 @@ function App() {
       : podcasts;
 
   return (
-    <div className="app">
+    <div>
       <h1>Prueba tecnica - Podcaster</h1>
       <input
         type="text"
@@ -58,7 +63,10 @@ function App() {
         className="filter"
         onChange={(e) => setFilter(e.target.value)}
       />
-      {JSON.stringify(filteredPodcasts)}
+      <Routes>
+        <Route path="/" element={<Home podcasts={filteredPodcasts} />} />
+        <Route path="/detail" element={<Detail />} />
+      </Routes>
     </div>
   );
 }
