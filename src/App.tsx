@@ -66,6 +66,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home podcasts={filteredPodcasts} />} />
         <Route path="/detail" element={<Detail />} />
+        <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
     </div>
   );
