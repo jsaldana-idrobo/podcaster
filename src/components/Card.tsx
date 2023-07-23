@@ -11,7 +11,8 @@ const Card: React.FC<CardProps> = ({ podcast }) => {
   return (
     <Link
       className="card-link"
-      to={`/detail/${podcast.id.attributes["im:id"]}`}
+      to={`/podcast/${podcast.id.attributes["im:id"]}`}
+      state={{ podcast }}
     >
       <div className="card">
         <img

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-
 import "./App.css";
-
 import Detail from "./components/Detail";
 import Home from "./components/Home";
-import { Entry, Podcasts } from "./types.d";
+import { Entry } from "./types.d";
 
 function App() {
   const [podcasts, setPodcasts] = useState<Entry[]>([]);
@@ -28,7 +26,7 @@ function App() {
       "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json"
     )
       .then(async (res) => await res.json())
-      .then((res: Podcasts) => {
+      .then((res) => {
         const pods = res.feed.entry;
         setPodcasts(pods);
         localStorage.setItem(
@@ -45,7 +43,7 @@ function App() {
       <h1>Prueba tecnica - Podcaster</h1>
       <Routes>
         <Route path="/" element={<Home podcasts={podcasts} />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/podcast/:id" element={<Detail />} />
         <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
     </div>
