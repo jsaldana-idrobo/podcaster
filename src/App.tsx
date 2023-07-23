@@ -9,7 +9,6 @@ import { Entry, Podcasts } from "./types.d";
 
 function App() {
   const [podcasts, setPodcasts] = useState<Entry[]>([]);
-  const [filter, setFilter] = useState<string | null>(null);
 
   useEffect(() => {
     if (
@@ -18,7 +17,6 @@ function App() {
         Number(localStorage.getItem("fetchTime")) >
         86400
     ) {
-      console.log("Entra");
       getPodcasts();
     } else {
       setPodcasts(JSON.parse(localStorage.getItem("podcasts")!));
@@ -42,29 +40,11 @@ function App() {
       .catch((error) => console.log(error));
   };
 
-  const filteredPodcasts =
-    typeof filter === "string"
-      ? podcasts.filter((podcast) => {
-          return (
-            podcast.title.label.toLowerCase().includes(filter.toLowerCase()) ||
-            podcast["im:artist"].label
-              .toLowerCase()
-              .includes(filter.toLowerCase())
-          );
-        })
-      : podcasts;
-
   return (
     <div>
       <h1>Prueba tecnica - Podcaster</h1>
-      <input
-        type="text"
-        placeholder="Filter podcasts"
-        className="filter"
-        onChange={(e) => setFilter(e.target.value)}
-      />
       <Routes>
-        <Route path="/" element={<Home podcasts={filteredPodcasts} />} />
+        <Route path="/" element={<Home podcasts={podcasts} />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
