@@ -29,7 +29,7 @@ export interface Link2 {
 export interface Entry {
   "im:name": { label: string };
   "im:image": ImImage[];
-  summary: string;
+  summary: { label: string };
   "im:price": ImPrice;
   "im:contentType": ImContentType;
   rights?: string;

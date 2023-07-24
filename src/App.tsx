@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import Detail from "./components/Detail";
 import Home from "./components/Home";
 import { Entry } from "./types.d";

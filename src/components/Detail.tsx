@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Episode } from "../types.d";
+import CardDetail from "./CardDetail";
 
 const Detail = () => {
   const { state } = useLocation();
@@ -25,11 +26,14 @@ const Detail = () => {
 
   return (
     <div>
-      <h1>Podcast: {state?.podcast.id.attributes["im:id"]}</h1>
-      <h2>Episodios: {episodesCounter}</h2>
-      {episodes.map((episode: Episode) => (
-        <h3 key={episode.trackId}>{episode.artistName}</h3>
-      ))}
+      <CardDetail state={state} />
+
+      <div>
+        <h2>Episodios: {episodesCounter}</h2>
+        {episodes.map((episode: Episode) => (
+          <h3 key={episode.trackId}>{episode.artistName}</h3>
+        ))}
+      </div>
     </div>
   );
 };
