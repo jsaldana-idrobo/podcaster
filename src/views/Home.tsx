@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import Card from "../components/Card";
 import { Entry } from "../types.d";
-import Card from "./Card";
 
 const Home = () => {
-  const expirationTimeInSeconds = 86400;
+  const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState<string | null>(null);
 
   const getPodcasts = async (): Promise<Entry[]> => {
@@ -12,32 +12,33 @@ const Home = () => {
       const res = await fetch(
         "https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json"
       );
-      const res_1 = await await res.json();
-      return await (res_1.feed.entry as Promise<Entry[]>);
+      const result = await res.json();
+      localStorage.setItem("fetch", JSON.stringify(result.feed.entry));
+      setIsLoading(false);
+      return result.feed.entry as Promise<Entry[]>;
     } catch {
       return [];
     }
   };
 
-  const { data, isLoading, error, refetch } = useQuery("podcasts", getPodcasts);
+  const { data, error, refetch } = useQuery<Entry[]>("podcasts", getPodcasts, {
+    enabled: false,
+    initialData: JSON.parse(localStorage.getItem("fetch")!),
+  });
 
   useEffect(() => {
-    const fetchTime = localStorage.getItem("fetchTime");
-    const currentTimeInSeconds = Math.round(new Date().getTime() / 1000);
-    const timeElapsed = currentTimeInSeconds - Number(fetchTime);
-
-    if (!fetchTime || timeElapsed > expirationTimeInSeconds) {
+    if (!localStorage.getItem("fetch")) {
+      setIsLoading(true);
       refetch();
-      localStorage.setItem("fetchTime", currentTimeInSeconds.toString());
     }
   }, [refetch]);
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Hubo un error al obtener los datos.</div>;
+    return <div>There was an error getting the data.</div>;
   }
 
   const filteredPodcasts =
