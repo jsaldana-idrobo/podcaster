@@ -17,7 +17,7 @@ const Episodes: React.FC<EpisodesProps> = ({ episodes }) => {
         </tr>
       </thead>
       <tbody>
-        {episodes.map((episode) => {
+        {episodes?.map((episode) => {
           const seconds = Math.floor(episode.trackTimeMillis / 1000);
           const minutes = Math.floor(seconds / 60);
           const remainingSeconds = seconds % 60;
