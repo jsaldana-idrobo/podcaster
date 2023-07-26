@@ -1,23 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { AppContext } from "../AppProvider";
 import CardDetail from "../components/CardDetail";
 import DetailContent from "../components/DetailContent";
-import EpisodeContext from "../components/EpisodeContext";
 import { Entry, Episode } from "../types.d";
 import { refetchIfExpired } from "../utils";
 
 const Detail = () => {
   const { id } = useParams();
-
   const [podcast, setPodcast] = useState<Entry>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isEpisode, setIsEpisode] = useState(false);
-
-  const contextValue = useMemo(
-    () => ({ isEpisode, setIsEpisode }),
-    [isEpisode]
-  );
+  const { setLoading } = useContext(AppContext);
 
   const getEpisodes = async (): Promise<Episode[]> => {
     try {
@@ -32,7 +25,7 @@ const Detail = () => {
         `fetch-${id ?? ""}`,
         JSON.stringify(jsonResult.results)
       );
-      setIsLoading(false);
+      setLoading(false);
       return jsonResult.results as Promise<Episode[]>;
     } catch {
       return [];
@@ -56,10 +49,10 @@ const Detail = () => {
     );
 
     if (refetchIfExpired(86400000, id)) {
-      setIsLoading(true);
+      setLoading(true);
       refetch();
     }
-  }, [id, refetch]);
+  }, [id, refetch, setLoading]);
 
   if (error) {
     return <div>There was an error getting the data.</div>;
@@ -69,15 +62,9 @@ const Detail = () => {
     podcast && (
       <div className="detail">
         <CardDetail podcast={podcast} />
-        <EpisodeContext.Provider value={contextValue}>
-          <div className="episodes">
-            <DetailContent
-              isLoading={isLoading}
-              isEpisode={isEpisode}
-              data={data}
-            />
-          </div>
-        </EpisodeContext.Provider>
+        <div className="episodes">
+          <DetailContent data={data} />
+        </div>
       </div>
     )
   );

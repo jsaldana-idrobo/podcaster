@@ -1,6 +1,17 @@
 import React, { ReactNode } from "react";
-import { QueryClientProvider as ReactQueryClientProvider } from "react-query";
-import queryClient from "../client";
+import {
+  QueryClient,
+  QueryClientProvider as ReactQueryClientProvider,
+} from "react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60 * 24,
+      staleTime: 1000 * 60 * 60 * 24,
+    },
+  },
+});
 
 interface QueryClientProviderProps {
   children: ReactNode;
