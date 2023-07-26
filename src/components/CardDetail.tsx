@@ -3,28 +3,30 @@ import React from "react";
 import { Entry } from "../types.d";
 
 interface CardDetailProps {
-  state: { podcast: Entry };
+  podcast: Entry | undefined;
 }
 
-const CardDetail: React.FC<CardDetailProps> = ({ state }) => {
+const CardDetail: React.FC<CardDetailProps> = ({ podcast }) => {
   return (
-    <div className="card detail">
-      <img
-        className="detail"
-        src={state?.podcast["im:image"][0].label}
-        alt={state?.podcast["im:name"].label}
-      />
-      <div className="separator" />
-      <div className="card-text">
-        <h4>{state?.podcast.title.label}</h4>
-        <p>By: {state?.podcast["im:artist"].label}</p>
+    podcast && (
+      <div className="card detail">
+        <img
+          className="detail"
+          src={podcast["im:image"][0].label}
+          alt={podcast["im:name"].label}
+        />
+        <div className="separator" />
+        <div className="card-text">
+          <h4>{podcast.title.label}</h4>
+          <p>By: {podcast["im:artist"].label}</p>
+        </div>
+        <div className="separator" />
+        <div className="card-text">
+          <h4>Description:</h4>
+          <p>{podcast.summary.label}</p>
+        </div>
       </div>
-      <div className="separator" />
-      <div className="card-text">
-        <h4>Description:</h4>
-        <p>{state?.podcast.summary.label}</p>
-      </div>
-    </div>
+    )
   );
 };
 

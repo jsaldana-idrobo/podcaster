@@ -70,6 +70,28 @@ h1 {
   width: 75%;
 }
 
+.loading {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3498db;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 .episodes-table {
   width: calc(100% - 16px);
   margin: 8px;
@@ -106,7 +128,7 @@ h1 {
 .card img.detail {
   align-self: center;
   height: 250px;
-  width: 80%;
+  width: 90%;
 }
 
 .card h3 {
@@ -136,4 +158,27 @@ h1 {
   line-height: 1.3;
   font-style: italic;
   word-wrap: break-word;
+}
+
+.not-found-page {
+  text-align: center;
+  margin-top: 100px;
+  font-family: Arial, sans-serif;
+}
+
+.not-found-page h1 {
+  font-size: 80px;
+  color: #f44336;
+  margin-bottom: 20px;
+}
+
+.not-found-page h2 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.not-found-page p {
+  font-size: 18px;
+  color: #666;
 }

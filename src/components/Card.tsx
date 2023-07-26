@@ -12,7 +12,6 @@ const Card: React.FC<CardProps> = ({ podcast }) => {
     <Link
       className="card-link"
       to={`/podcast/${podcast.id.attributes["im:id"]}`}
-      state={{ podcast }}
     >
       <div className="card">
         <img

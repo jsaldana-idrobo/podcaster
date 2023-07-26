@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import Card from "../components/Card";
 import { Entry } from "../types.d";
+import { refetchIfExpired } from "../utils";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +28,7 @@ const Home = () => {
   });
 
   useEffect(() => {
-    if (!localStorage.getItem("fetch")) {
+    if (refetchIfExpired(86400000)) {
       setIsLoading(true);
       refetch();
     }

@@ -1,12 +1,20 @@
 // src/Card.tsx
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Episode } from "../types.d";
+import EpisodeContext from "./EpisodeContext";
 
 interface EpisodesProps {
   episodes: Episode[];
 }
 
 const Episodes: React.FC<EpisodesProps> = ({ episodes }) => {
+  const { setIsEpisode } = useContext(EpisodeContext);
+
+  const handleButtonClick = () => {
+    setIsEpisode((prevIsEpisode) => !prevIsEpisode);
+  };
+
   return (
     <table className="episodes-table">
       <thead>
@@ -23,7 +31,14 @@ const Episodes: React.FC<EpisodesProps> = ({ episodes }) => {
           const remainingSeconds = seconds % 60;
           return (
             <tr key={episode.trackId}>
-              <td>{episode.trackName}</td>
+              <td>
+                <Link
+                  to={`episode/${episode.trackId}`}
+                  onClick={handleButtonClick}
+                >
+                  {episode.trackName}
+                </Link>
+              </td>
               <td>{new Date(episode.releaseDate).toLocaleDateString()}</td>
               <td>
                 {minutes}:{remainingSeconds}

@@ -1,20 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CardDetail from "../components/CardDetail";
-import Episodes from "../components/Episodes";
-import { Episode } from "../types.d";
+import DetailContent from "../components/DetailContent";
+import EpisodeContext from "../components/EpisodeContext";
+import { Entry, Episode } from "../types.d";
+import { refetchIfExpired } from "../utils";
 
 const Detail = () => {
-  const { state } = useLocation();
+  const { id } = useParams();
+
+  const [podcast, setPodcast] = useState<Entry>();
   const [isLoading, setIsLoading] = useState(false);
-  const id = state?.podcast.id.attributes["im:id"];
+  const [isEpisode, setIsEpisode] = useState(false);
+
+  const contextValue = useMemo(
+    () => ({ isEpisode, setIsEpisode }),
+    [isEpisode]
+  );
 
   const getEpisodes = async (): Promise<Episode[]> => {
     try {
       const res = await fetch(
         `https://api.allorigins.win/get?url=${encodeURIComponent(
-          `https://itunes.apple.com/lookup?id=${id}&country=US&media=podcast&entity=podcastEpisode`
+          `https://itunes.apple.com/lookup?id=${id}&entity=podcastEpisode&limit=1000&sort=recent`
         )}`
       );
       const result = await res.json();
@@ -40,7 +49,13 @@ const Detail = () => {
   );
 
   useEffect(() => {
-    if (!localStorage.getItem(`fetch-${id ?? ""}`)) {
+    setPodcast(
+      JSON.parse(localStorage.getItem("fetch")!).find(
+        (pod: Entry) => pod.id.attributes["im:id"] === id
+      )
+    );
+
+    if (refetchIfExpired(86400000, id)) {
       setIsLoading(true);
       refetch();
     }
@@ -51,22 +66,20 @@ const Detail = () => {
   }
 
   return (
-    <div className="detail">
-      <CardDetail state={state} />
-
-      <div className="episodes">
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          data && (
-            <div>
-              <h2>Episodes: {data.length}</h2>
-              <Episodes episodes={data} />
-            </div>
-          )
-        )}
+    podcast && (
+      <div className="detail">
+        <CardDetail podcast={podcast} />
+        <EpisodeContext.Provider value={contextValue}>
+          <div className="episodes">
+            <DetailContent
+              isLoading={isLoading}
+              isEpisode={isEpisode}
+              data={data}
+            />
+          </div>
+        </EpisodeContext.Provider>
       </div>
-    </div>
+    )
   );
 };
 
