@@ -1,6 +1,7 @@
 // src/Card.tsx
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AppContext } from "../AppProvider";
 import { Entry } from "../types.d";
 
 interface CardDetailProps {
@@ -8,10 +9,15 @@ interface CardDetailProps {
 }
 
 const CardDetail: React.FC<CardDetailProps> = ({ podcast }) => {
+  const { setLoading } = useContext(AppContext);
   return (
     podcast && (
       <div className="card detail">
-        <Link to={`/podcast/${podcast.id.attributes["im:id"]}`}>
+        <Link
+          className="card-link"
+          onClick={() => setLoading(false)}
+          to={`/podcast/${podcast.id.attributes["im:id"]}`}
+        >
           <img
             className="detail"
             src={podcast["im:image"][0].label}
@@ -20,10 +26,18 @@ const CardDetail: React.FC<CardDetailProps> = ({ podcast }) => {
         </Link>
         <div className="separator" />
         <div className="card-text">
-          <Link to={`/podcast/${podcast.id.attributes["im:id"]}`}>
+          <Link
+            className="card-link"
+            onClick={() => setLoading(false)}
+            to={`/podcast/${podcast.id.attributes["im:id"]}`}
+          >
             <h4>{podcast.title.label}</h4>
           </Link>
-          <Link to={`/podcast/${podcast.id.attributes["im:id"]}`}>
+          <Link
+            className="card-link"
+            onClick={() => setLoading(false)}
+            to={`/podcast/${podcast.id.attributes["im:id"]}`}
+          >
             <p>By: {podcast["im:artist"].label}</p>
           </Link>
         </div>

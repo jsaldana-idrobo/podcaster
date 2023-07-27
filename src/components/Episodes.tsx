@@ -25,7 +25,7 @@ const Episodes: React.FC<EpisodesProps> = ({ episodes }) => {
           return (
             <tr key={episode.trackId}>
               <td>
-                <Link to={`episode/${episode.trackId}`}>
+                <Link className="card-link" to={`episode/${episode.trackId}`}>
                   {episode.trackName}
                 </Link>
               </td>
