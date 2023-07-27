@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { AppContext } from "../AppProvider";
 import Card from "../components/Card";
 import { Entry } from "../types.d";
 import { refetchIfExpired } from "../utils";
 
-const Home = () => {
-  const [isLoading, setIsLoading] = useState(false);
+const HomeView = () => {
+  const { loading, setLoading } = useContext(AppContext);
   const [filter, setFilter] = useState<string | null>(null);
 
   const getPodcasts = async (): Promise<Entry[]> => {
@@ -15,7 +16,7 @@ const Home = () => {
       );
       const result = await res.json();
       localStorage.setItem("fetch", JSON.stringify(result.feed.entry));
-      setIsLoading(false);
+      setLoading(false);
       return result.feed.entry as Promise<Entry[]>;
     } catch {
       return [];
@@ -29,14 +30,12 @@ const Home = () => {
 
   useEffect(() => {
     if (refetchIfExpired(86400000)) {
-      setIsLoading(true);
+      setLoading(true);
       refetch();
     }
-  }, [refetch]);
+  }, [refetch, setLoading]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
 
   if (error) {
     return <div>There was an error getting the data.</div>;
@@ -71,4 +70,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeView;

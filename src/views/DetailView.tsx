@@ -7,7 +7,7 @@ import DetailContent from "../components/DetailContent";
 import { Entry, Episode } from "../types.d";
 import { refetchIfExpired } from "../utils";
 
-const Detail = () => {
+const DetailView = () => {
   const { id } = useParams();
   const [podcast, setPodcast] = useState<Entry>();
   const { setLoading } = useContext(AppContext);
@@ -70,4 +70,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default DetailView;

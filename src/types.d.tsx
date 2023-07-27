@@ -99,6 +99,7 @@ export interface Episode {
   kind: string;
   artistId: number;
   collectionId: number;
+  episodeUrl: string;
   trackId: number;
   artistName: string;
   collectionName: string;
@@ -121,6 +122,7 @@ export interface Episode {
   trackCount: number;
   trackTimeMillis: number;
   country: string;
+  description: string;
   currency: string;
   primaryGenreName: string;
   contentAdvisoryRating: string;
