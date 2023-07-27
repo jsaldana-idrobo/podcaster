@@ -3,6 +3,7 @@ import { Outlet, useParams } from "react-router-dom";
 import { AppContext } from "../AppProvider";
 import { Episode } from "../types.d";
 import Episodes from "./Episodes";
+import Loading from "./Loading";
 
 interface DetailContentProps {
   data: Episode[] | undefined;
@@ -14,16 +15,7 @@ const DetailContent: React.FC<DetailContentProps> = ({ data }) => {
 
   if (episodeId) return <Outlet />;
 
-  if (loading)
-    return (
-      <div>
-        <div className={`loading-content ${loading ? "loading" : ""}`}>
-          Loading <span className="dot-1">.</span>
-          <span className="dot-2">.</span>
-          <span className="dot-3">.</span>
-        </div>
-      </div>
-    );
+  if (loading) return <Loading />;
 
   return (
     data && (

@@ -5,7 +5,7 @@ import { AppContext } from "../AppProvider";
 import CardDetail from "../components/CardDetail";
 import DetailContent from "../components/DetailContent";
 import { Entry, Episode } from "../types.d";
-import { refetchIfExpired } from "../utils";
+import { currentTimeInSeconds, refetchIfExpired } from "../utils";
 
 const DetailView = () => {
   const { id } = useParams();
@@ -24,6 +24,10 @@ const DetailView = () => {
       localStorage.setItem(
         `fetch-${id ?? ""}`,
         JSON.stringify(jsonResult.results)
+      );
+      localStorage.setItem(
+        `fetchTime-${id ?? ""}`,
+        currentTimeInSeconds.toString()
       );
       setLoading(false);
       return jsonResult.results as Promise<Episode[]>;

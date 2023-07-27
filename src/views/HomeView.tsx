@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { AppContext } from "../AppProvider";
 import Card from "../components/Card";
+import Loading from "../components/Loading";
 import { Entry } from "../types.d";
 import { refetchIfExpired } from "../utils";
 
@@ -35,7 +36,7 @@ const HomeView = () => {
     }
   }, [refetch, setLoading]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
 
   if (error) {
     return <div>There was an error getting the data.</div>;
@@ -54,14 +55,19 @@ const HomeView = () => {
       : data;
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Filter podcasts"
-        className="filter"
-        onChange={(e) => setFilter(e.target.value)}
-      />
-      <div className="home">
+    <div className="home">
+      <div className="filter-container">
+        <p className="counter">{filteredPodcasts?.length}</p>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Filter podcasts"
+            onChange={(e) => setFilter(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className="home-grid">
         {filteredPodcasts?.map((entry: Entry) => (
           <Card key={entry.id.attributes["im:id"]} podcast={entry} />
         ))}

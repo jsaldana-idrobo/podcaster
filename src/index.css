@@ -17,13 +17,51 @@ h1 {
   line-height: 1.1;
 }
 
-.filter {
-  align-self: center;
-  margin-bottom: 20px;
-  width: 20%;
+.home {
+  display: flex;
+  flex-direction: column;
 }
 
-.home {
+.counter {
+  font-size: xxx-large;
+  font-weight: 700;
+  margin-right: 30px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  width: 20%;
+  margin: 15px 50px 15px 0;
+}
+
+input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 16px;
+}
+
+input::placeholder {
+  color: #ccc;
+}
+
+input:focus {
+  border: 1px solid #007bff;
+}
+
+.home-grid {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
@@ -160,9 +198,7 @@ h1 {
 }
 
 .card img.detail {
-  align-self: center;
   height: 250px;
-  width: 90%;
 }
 
 .card h3 {
