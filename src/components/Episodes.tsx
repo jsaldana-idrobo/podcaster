@@ -1,7 +1,6 @@
 // src/Card.tsx
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { AppContext } from "../AppProvider";
 import { Episode } from "../types.d";
 
 interface EpisodesProps {
@@ -9,8 +8,6 @@ interface EpisodesProps {
 }
 
 const Episodes: React.FC<EpisodesProps> = ({ episodes }) => {
-  const { setLoading } = useContext(AppContext);
-
   return (
     <table className="episodes-table">
       <thead>
@@ -28,10 +25,7 @@ const Episodes: React.FC<EpisodesProps> = ({ episodes }) => {
           return (
             <tr key={episode.trackId}>
               <td>
-                <Link
-                  to={`episode/${episode.trackId}`}
-                  onClick={() => setLoading(true)}
-                >
+                <Link to={`episode/${episode.trackId}`}>
                   {episode.trackName}
                 </Link>
               </td>
