@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../AppProvider";
 import { Episode } from "../types.d";
+import { converText } from "../utils";
 
 const EpisodeView = () => {
   const { id, episodeId } = useParams();
@@ -15,19 +16,6 @@ const EpisodeView = () => {
       )
     );
   }, [episodeId, id]);
-
-  const converText = (text: string) => {
-    console.log(text);
-
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const breakRegex = /(?:\r\n|\r|\n|\n\n)/g;
-    return text
-      .replace(breakRegex, " <br/> ")
-      .replace(
-        urlRegex,
-        (url) => `<a href="${url}" target="_blank">${url}</a>`
-      );
-  };
 
   return (
     episode && (
