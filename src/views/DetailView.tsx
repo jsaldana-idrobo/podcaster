@@ -63,14 +63,12 @@ const DetailView = () => {
   }
 
   return (
-    podcast && (
-      <div className="detail">
-        <CardDetail podcast={podcast} />
-        <div className="episodes">
-          <DetailContent data={data} />
-        </div>
+    <div className="detail">
+      <CardDetail podcast={podcast!} />
+      <div className="episodes">
+        <DetailContent data={data ?? []} />
       </div>
-    )
+    </div>
   );
 };
 

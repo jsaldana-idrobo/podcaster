@@ -18,17 +18,17 @@ const EpisodeView = () => {
   }, [episodeId, id]);
 
   return (
-    episode && (
-      <div className="card description">
-        <p className="description-title">
-          {episode.trackName} - {episode.artistName}
-        </p>
-        <p
-          className="description-text"
-          dangerouslySetInnerHTML={{
-            __html: converText(episode.description),
-          }}
-        />
+    <div className="card description">
+      <p className="description-title">
+        {episode?.trackName} - {episode?.artistName}
+      </p>
+      <p
+        className="description-text"
+        dangerouslySetInnerHTML={{
+          __html: converText(episode?.description ?? ""),
+        }}
+      />
+      {episode && (
         <audio
           className="audio"
           controls
@@ -38,8 +38,8 @@ const EpisodeView = () => {
           <source src={episode.episodeUrl} type="audio/mpeg" />
           Tu navegador no soporta la reproducción de audio.
         </audio>
-      </div>
-    )
+      )}
+    </div>
   );
 };
 

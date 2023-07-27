@@ -5,7 +5,7 @@ import { AppContext } from "../AppProvider";
 import { Entry } from "../types.d";
 
 interface CardDetailProps {
-  podcast: Entry | undefined;
+  podcast: Entry;
 }
 
 const CardDetail: React.FC<CardDetailProps> = ({ podcast }) => {

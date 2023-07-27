@@ -6,7 +6,7 @@ import Episodes from "./Episodes";
 import Loading from "./Loading";
 
 interface DetailContentProps {
-  data: Episode[] | undefined;
+  data: Episode[];
 }
 
 const DetailContent: React.FC<DetailContentProps> = ({ data }) => {
@@ -18,12 +18,10 @@ const DetailContent: React.FC<DetailContentProps> = ({ data }) => {
   if (loading) return <Loading />;
 
   return (
-    data && (
-      <div>
-        <h2>Episodes: {data.length}</h2>
-        <Episodes episodes={data.slice(1)} />
-      </div>
-    )
+    <div>
+      <h2>Episodes: {data.length}</h2>
+      <Episodes episodes={data.slice(1)} />
+    </div>
   );
 };
 
